@@ -28,28 +28,7 @@ def svm_with_diff_c(train_label, train_data, test_label, test_data):
         linear_svc.fit(train_data, train_label)
         predictions = linear_svc.predict(test_data)
 
-        x_min, x_max = test_data[:, 0].min() - 1, test_data[:, 0].max() + 1
-        y_min, y_max = test_data[:, 0].min() - 1, test_data[:, 0].max() + 1
-        xx, yy = np.meshgrid(
-            np.linspace(x_min, x_max, 500),
-            np.linspace(y_min, y_max, 500)
-        )
-
-        Z = linear_svc.decision_function(np.c_[xx.ravel(), yy.ravel()])
-        Z = Z.reshape(xx.shape)
-
-        plt.figure(figsize=(8, 6))
-        plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='black')
-        scatter = plt.scatter(test_data[:, 0], test_data[:, 1], c=predictions,
-                              cmap='bwr', edgecolor='k', s=50)
-        plt.xlabel('Systematic Feature')
-        plt.ylabel('Intensity Feature')
-        plt.title(f"Test data: {c}, support vectors: {linear_svc.n_support_}")
-        plt.colorbar(scatter, ticks=[-1, 1], label='Predicted Label')
-        plt.savefig(f"./plots/plot{c}.jpg")
-
-
-
+        show_plots(test_data, linear_svc, predictions, "linear_c", c)
     ### END YOUR CODE
     
 
@@ -67,7 +46,41 @@ def svm_with_diff_kernel(train_label, train_data, test_label, test_data):
     '''
 
     ### YOUR CODE HERE
+    kernels = ['linear', 'poly', 'rbf']
+
+    train_data = np.array(train_data)
+    test_data = np.array(test_data)
+    train_label = np.array(train_label)
+    test_label = np.array(test_label)
+
+    n = 1
+    for kernel in kernels:
+        kernel_svc = SVC(kernel=kernel)
+        kernel_svc.fit(train_data, train_label)
+        predictions = kernel_svc.predict(test_data)
+
+        show_plots(test_data, kernel_svc, predictions, kernel, n)
+        n += 1
 
 
 
-    ### END YOUR CODE
+def show_plots(test_data, svc, predictions, type_name, n):
+    x_min, x_max = test_data[:, 0].min() - 1, test_data[:, 0].max() + 1
+    y_min, y_max = test_data[:, 0].min() - 1, test_data[:, 0].max() + 1
+    xx, yy = np.meshgrid(
+        np.linspace(x_min, x_max, 500),
+        np.linspace(y_min, y_max, 500)
+    )
+
+    Z = svc.decision_function(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+
+    plt.figure(figsize=(8, 6))
+    plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='black')
+    scatter = plt.scatter(test_data[:, 0], test_data[:, 1], c=predictions,
+                          cmap='bwr', edgecolor='k', s=50)
+    plt.xlabel('Systematic Feature')
+    plt.ylabel('Intensity Feature')
+    plt.title(f"type: {type_name}: {n}, support vectors: {svc.n_support_}")
+    plt.colorbar(scatter, ticks=[-1, 1], label='Predicted Label')
+    plt.savefig(f"./plots/{type_name}{n}.jpg")
