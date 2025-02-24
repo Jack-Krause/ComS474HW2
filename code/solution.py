@@ -13,8 +13,12 @@ def svm_with_diff_c(train_label, train_data, test_label, test_data):
     '''
 
     ### YOUR CODE HERE
-
-
+    costs = [0.01, 0.1, 1, 2, 3, 5]
+    for c in costs:
+        linear_svc = SVC(kernel='linear', C=c)
+        linear_svc.fit(train_data, train_label)
+        predictions = linear_svc.predict(test_data)
+        print(f"Cost is: {c}: predictions are: {predictions}")
 
     ### END YOUR CODE
     
