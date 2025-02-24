@@ -53,11 +53,18 @@ def svm_with_diff_kernel(train_label, train_data, test_label, test_data):
     train_label = np.array(train_label)
     test_label = np.array(test_label)
 
+
     n = 1
     for kernel in kernels:
+        if kernel == 'rbf':
+            test_point = np.array([[0.5, 0.5]])
+            test_data = np.vstack([test_data, test_point])
+
         kernel_svc = SVC(kernel=kernel)
         kernel_svc.fit(train_data, train_label)
         predictions = kernel_svc.predict(test_data)
+
+
 
         show_plots(test_data, kernel_svc, predictions, kernel, n)
         n += 1
