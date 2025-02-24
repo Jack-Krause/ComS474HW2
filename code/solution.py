@@ -48,6 +48,7 @@ def svm_with_diff_kernel(train_label, train_data, test_label, test_data):
     ### YOUR CODE HERE
     kernels = ['linear', 'poly', 'rbf']
 
+
     train_data = np.array(train_data)
     test_data = np.array(test_data)
     train_label = np.array(train_label)
@@ -57,6 +58,11 @@ def svm_with_diff_kernel(train_label, train_data, test_label, test_data):
     n = 1
     for kernel in kernels:
         if kernel == 'rbf':
+            new_train_point = np.array([0.5, 0.5])
+            new_train_label = np.array([1])
+            train_data = np.vstack([train_data, new_train_point])
+            train_label = np.append(train_label, new_train_label)
+
             test_point = np.array([[0.5, 0.5]])
             test_data = np.vstack([test_data, test_point])
 

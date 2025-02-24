@@ -10,8 +10,8 @@ def test_svm():
         train_data, train_label = load_features(traindataloc)
         test_data, test_label = load_features(testdataloc)
 
-        svm_with_diff_c(train_label.tolist(), train_data.tolist(),
-                        test_label.tolist(), test_data.tolist())
+        # svm_with_diff_c(train_label.tolist(), train_data.tolist(),
+        #                 test_label.tolist(), test_data.tolist())
         svm_with_diff_kernel(train_label.tolist(), train_data.tolist(),
                              test_label.tolist(), test_data.tolist())
 
