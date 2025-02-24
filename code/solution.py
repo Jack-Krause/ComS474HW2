@@ -44,9 +44,11 @@ def svm_with_diff_c(train_label, train_data, test_label, test_data):
                               cmap='bwr', edgecolor='k', s=50)
         plt.xlabel('Systematic Feature')
         plt.ylabel('Intensity Feature')
-        plt.title('Test data with predicted labels and dec. boundary')
+        plt.title(f"Test data: {c}, support vectors: {linear_svc.n_support_}")
         plt.colorbar(scatter, ticks=[-1, 1], label='Predicted Label')
         plt.savefig(f"./plots/plot{c}.jpg")
+
+
 
     ### END YOUR CODE
     
