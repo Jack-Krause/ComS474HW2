@@ -63,8 +63,8 @@ def svm_with_diff_kernel(train_label, train_data, test_label, test_data):
             train_data = np.vstack([train_data, new_train_point])
             train_label = np.append(train_label, new_train_label)
 
-            test_point = np.array([[0.5, 0.5]])
-            test_data = np.vstack([test_data, test_point])
+            test_points = np.array([[0.5, 0.5], [1.0, 0.75], [-1.0, 1.0], [0.4, 0.5]])
+            test_data = np.vstack([test_data, test_points])
 
         kernel_svc = SVC(kernel=kernel)
         kernel_svc.fit(train_data, train_label)
